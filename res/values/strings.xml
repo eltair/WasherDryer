@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, WasherDryer!</string>
+    <string name="app_name">WasherDryer</string>
+<string name="settings">Settings</string>
+<string name="wash_cycle_length_label">Full Wash Cycle Time (in minutes)</string>
+
+<string name="wash_cycle_length">5</string>
+<string name="wash_cycle_enabled">Enable Wash Cycle</string>
+<string name="wash_time_left_label">Time left:</string>
+<string name="wash_time_left">@string/wash_cycle_length</string>
+<string name="wash_reset">Reset Wash Cycle</string>
+<string name="wash_start">Start Washer</string>
+</resources>

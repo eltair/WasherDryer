@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/settings"
+		android:textSize="14pt" />
+	<CheckBox android:id="@+id/WashCycleEnabled" android:text="@string/wash_cycle_enabled"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+	<LinearLayout android:id="@+id/WashLayout"
+		android:orientation="horizontal" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<EditText android:text="@string/wash_cycle_length"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:id="@+id/WashCycleLength" android:inputType="number"></EditText>
+		<TextView android:id="@+id/WashCycleLengthLabel"
+			android:text="@string/wash_cycle_length_label" android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></TextView>
+	</LinearLayout>
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
+<TextView android:text="@string/wash_time_left_label" android:id="@+id/WashTimeLeftLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+<TextView android:text="@string/wash_time_left" android:id="@+id/WashTimeLeft" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+</LinearLayout>
+<Button android:text="@string/wash_reset" android:id="@+id/WashReset" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+<Button android:text="@string/wash_start" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/WashStart"></Button>
+</LinearLayout>
