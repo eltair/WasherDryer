@@ -8,14 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +35,8 @@ public class WasherDryer extends Activity {
 	washReset.setOnClickListener(washerListener);
 	final Button washStart = (Button) findViewById(R.id.WashStart);
 	washStart.setOnClickListener(washerListener);
-
-	final CheckBox washEnabled = (CheckBox) findViewById(R.id.WashCycleEnabled);
-	washEnabled.setOnCheckedChangeListener(washerListener);
+	final Button washStop = (Button) findViewById(R.id.WashStop);
+	washStop.setOnClickListener(washerListener);
 
 	final String ns = Context.NOTIFICATION_SERVICE;
 	timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
@@ -47,11 +44,10 @@ public class WasherDryer extends Activity {
 	notificationManager.cancelAll();
     }
 
-    public class WasherListener implements OnClickListener, OnCheckedChangeListener, OnKeyListener {
+    public class WasherListener implements OnClickListener, OnKeyListener {
 	private WasherCountdownTimer washerTimer;
 	private final TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
 	private final TextView timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
-	private final CheckBox washEnabled = (CheckBox) findViewById(R.id.WashCycleEnabled);
 	private int cycleLength;
 
 	public WasherListener() {
@@ -62,20 +58,16 @@ public class WasherDryer extends Activity {
 	public void onClick(View v) {
 	    if (v.getId() == R.id.WashReset) {
 		cycleLength = Integer.parseInt(maxTimeView.getText().toString());
-		if (washEnabled.isEnabled()) {
-		    washerTimer.cancel();
-		    washerTimer = new WasherCountdownTimer(cycleLength * TIME_TICK, TIME_TICK);
-		}
+		washerTimer.cancel();
+		washerTimer = new WasherCountdownTimer(cycleLength * TIME_TICK, TIME_TICK);
+		timeLeftView.setText("" + cycleLength);
 	    } else if (v.getId() == R.id.WashStart) {
 		washerTimer.start();
 		Toast.makeText(WasherDryer.this, "Washer timer started", Toast.LENGTH_SHORT).show();
-	    }
-	}
-
-	public void onCheckedChanged(CompoundButton checkBoxView, boolean isChecked) {
-	    if (!isChecked) {
+	    } else if (v.getId() == R.id.WashStop) {
 		washerTimer.cancel();
-		Toast.makeText(WasherDryer.this, "Washer timer disabled", Toast.LENGTH_SHORT).show();
+		washerTimer = new WasherCountdownTimer(Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK,
+			TIME_TICK);
 	    }
 	}
 
@@ -124,7 +116,8 @@ public class WasherDryer extends Activity {
 
 	@Override
 	public void onTick(long millisUntilFinished) {
-	    timeLeftView.setText(Integer.toString((int) Math.ceil((double) millisUntilFinished / TIME_TICK)));
+	    Log.d(this.getClass().toString(), "millisUntilFinished=" + millisUntilFinished);
+	    timeLeftView.setText(Integer.toString((int) Math.ceil((double) millisUntilFinished / (double) TIME_TICK)));
 	}
     }
 }

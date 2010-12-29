@@ -5,8 +5,7 @@
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="@string/settings"
 		android:textSize="14pt" />
-	<CheckBox android:id="@+id/WashCycleEnabled" android:text="@string/wash_cycle_enabled"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+	
 	<LinearLayout android:id="@+id/WashLayout"
 		android:orientation="horizontal" android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
@@ -21,6 +20,10 @@
 <TextView android:text="@string/wash_time_left_label" android:id="@+id/WashTimeLeftLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 <TextView android:text="@string/wash_time_left" android:id="@+id/WashTimeLeft" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 </LinearLayout>
-<Button android:text="@string/wash_reset" android:id="@+id/WashReset" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+<LinearLayout android:id="@+id/LinearLayout02" android:layout_width="wrap_content" android:layout_height="wrap_content">
 <Button android:text="@string/wash_start" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/WashStart"></Button>
+<Button android:text="@string/wash_stop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/WashStop"></Button>
+<Button android:text="@string/wash_reset" android:id="@+id/WashReset" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+</LinearLayout>
+
 </LinearLayout>
