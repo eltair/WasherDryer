@@ -66,6 +66,7 @@ public class WasherDryer extends Activity {
 		Toast.makeText(WasherDryer.this, "Washer timer started", Toast.LENGTH_SHORT).show();
 	    } else if (v.getId() == R.id.WashStop) {
 		washerTimer.cancel();
+		Toast.makeText(WasherDryer.this, "Washer timer stopped", Toast.LENGTH_SHORT).show();
 		washerTimer = new WasherCountdownTimer(Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK,
 			TIME_TICK);
 	    }
