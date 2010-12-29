@@ -31,9 +31,12 @@ public class WasherDryer extends Activity {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
 
-	final Button washReset = (Button) findViewById(R.id.WashReset);
 	final WasherListener washerListener = new WasherListener();
+
+	final Button washReset = (Button) findViewById(R.id.WashReset);
 	washReset.setOnClickListener(washerListener);
+	final Button washStart = (Button) findViewById(R.id.WashStart);
+	washStart.setOnClickListener(washerListener);
 
 	final CheckBox washEnabled = (CheckBox) findViewById(R.id.WashCycleEnabled);
 	washEnabled.setOnCheckedChangeListener(washerListener);
@@ -62,7 +65,6 @@ public class WasherDryer extends Activity {
 		if (washEnabled.isEnabled()) {
 		    washerTimer.cancel();
 		    washerTimer = new WasherCountdownTimer(cycleLength * TIME_TICK, TIME_TICK);
-		    washerTimer.start();
 		}
 	    } else if (v.getId() == R.id.WashStart) {
 		washerTimer.start();
@@ -71,14 +73,7 @@ public class WasherDryer extends Activity {
 	}
 
 	public void onCheckedChanged(CompoundButton checkBoxView, boolean isChecked) {
-	    if (isChecked) {
-		int maxTime = Integer.parseInt(maxTimeView.getText().toString());
-		int timeLeft = Integer.parseInt(timeLeftView.getText().toString());
-		if (maxTime != timeLeft) {
-		    washerTimer = new WasherCountdownTimer(timeLeft * TIME_TICK, TIME_TICK);
-		}
-
-	    } else {
+	    if (!isChecked) {
 		washerTimer.cancel();
 		Toast.makeText(WasherDryer.this, "Washer timer disabled", Toast.LENGTH_SHORT).show();
 	    }
