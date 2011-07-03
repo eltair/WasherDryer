@@ -1,11 +1,8 @@
 package net.swapspace.apps.wd;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -28,20 +25,19 @@ public class WasherDryer extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
-
-	final WasherListener washerListener = new WasherListener();
-
+	timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
+	notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+	notificationManager.cancelAll();
+	NotificationHandler notificationHandler = new Android4NotificationHandler("Washer done!", this, notificationManager);
+	TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
+	int cycleLength = Integer.parseInt(maxTimeView.getText().toString());
+	final WasherListener washerListener = new WasherListener(new Appliance(notificationHandler, cycleLength * TIME_TICK, TIME_TICK));
 	final Button washReset = (Button) findViewById(R.id.WashReset);
 	washReset.setOnClickListener(washerListener);
 	final Button washStart = (Button) findViewById(R.id.WashStart);
 	washStart.setOnClickListener(washerListener);
 	final Button washStop = (Button) findViewById(R.id.WashStop);
 	washStop.setOnClickListener(washerListener);
-
-	final String ns = Context.NOTIFICATION_SERVICE;
-	timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
-	notificationManager = (NotificationManager) getSystemService(ns);
-	notificationManager.cancelAll();
     }
 
     public class WasherListener implements OnClickListener, OnKeyListener {
@@ -50,16 +46,16 @@ public class WasherDryer extends Activity {
 	private final TextView timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
 	private int cycleLength;
 
-	public WasherListener() {
+	public WasherListener(Appliance washerTimer) {
 	    cycleLength = Integer.parseInt(maxTimeView.getText().toString());
-	    washerTimer = new Appliance(cycleLength * TIME_TICK, TIME_TICK);
+	    this.washerTimer = washerTimer;
 	}
 
 	public void onClick(View v) {
 	    if (v.getId() == R.id.WashReset) {
 		cycleLength = Integer.parseInt(maxTimeView.getText().toString());
 		washerTimer.cancel();
-		washerTimer = new Appliance(cycleLength * TIME_TICK, TIME_TICK/10);
+		washerTimer = new Appliance(washerTimer.getNotificationHandler(), cycleLength * TIME_TICK, TIME_TICK/10);
 		timeLeftView.setText("" + cycleLength);
 	    } else if (v.getId() == R.id.WashStart) {
 		washerTimer.start();
@@ -67,8 +63,7 @@ public class WasherDryer extends Activity {
 	    } else if (v.getId() == R.id.WashStop) {
 		washerTimer.cancel();
 		Toast.makeText(WasherDryer.this, "Washer timer stopped", Toast.LENGTH_SHORT).show();
-		washerTimer = new Appliance(Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK,
-			TIME_TICK);
+		washerTimer = new Appliance(washerTimer.getNotificationHandler(), Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK, TIME_TICK);
 	    }
 	}
 
@@ -94,29 +89,40 @@ public class WasherDryer extends Activity {
     }
 
     public class Appliance extends CountDownTimer {
-	public Appliance(long millisInFuture, long countDownInterval) {
+	private DisplayHandler displayHandler = new TextDisplayHandler(timeLeftView);
+	private NotificationHandler notificationHandler;
+	
+	public Appliance(NotificationHandler notificationHandler, long millisInFuture, long countDownInterval) {
 	    super(millisInFuture, countDownInterval);
+	    this.notificationHandler = notificationHandler;
+	}
+
+	public DisplayHandler getDisplayHandler() {
+	    return displayHandler;
+	}
+
+	public void setDisplayHandler(DisplayHandler displayHandler) {
+	    this.displayHandler = displayHandler;
+	}
+
+	public NotificationHandler getNotificationHandler() {
+	    return notificationHandler;
+	}
+
+	public void setNotificationHandler(NotificationHandler notificationHandler) {
+	    this.notificationHandler = notificationHandler;
 	}
 
 	@Override
 	public void onFinish() {
-	    timeLeftView.setText("0");
-	    Toast.makeText(WasherDryer.this, "Washer done!", Toast.LENGTH_SHORT).show();
-
-	    CharSequence tickerText = "Washer done!";
-	    long when = System.currentTimeMillis();
-	    Notification notification = new Notification(R.drawable.icon, tickerText, when);
-	    CharSequence contentTitle = "WasherDryer Alarm";
-	    Intent notificationIntent = new Intent(WasherDryer.this, WasherDryer.class);
-	    PendingIntent contentIntent = PendingIntent.getActivity(WasherDryer.this, 0, notificationIntent, 0);
-	    notification.setLatestEventInfo(WasherDryer.this, contentTitle, tickerText, contentIntent);
-	    notificationManager.notify(1, notification);
+	    displayHandler.handleChange(0);
+	    notificationHandler.handleComplete();
 	}
 
 	@Override
 	public void onTick(long millisUntilFinished) {
 	    Log.d(this.getClass().toString(), "millisUntilFinished=" + millisUntilFinished);
-	    timeLeftView.setText(Integer.toString((int) Math.ceil((double) millisUntilFinished / (double) TIME_TICK)));
+	    displayHandler.handleChange(((long)Math.ceil((double) millisUntilFinished / (double) TIME_TICK)));
 	}
     }
 }
