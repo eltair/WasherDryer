@@ -32,7 +32,7 @@ public class WasherDryer extends Activity {
 
 	int cycleLength = Integer.parseInt(((EditText) findViewById(R.id.WashCycleLength)).getText().toString());
 	NotificationHandler washerNotificationHandler = new Android4NotificationHandler("Washer done!", this, notificationManager);
-	washer = new ApplianceTimer(washerNotificationHandler, cycleLength * TIME_TICK, TIME_TICK);
+	washer = new ApplianceTimer(new TextDisplayHandler(timeLeftView), washerNotificationHandler, cycleLength * TIME_TICK, TIME_TICK);
 
 	ApplianceListener washerListener = new ApplianceListener(washer);
 	findViewById(R.id.WashReset).setOnClickListener(washerListener);
@@ -61,7 +61,7 @@ public class WasherDryer extends Activity {
 	    if (v.getId() == R.id.WashReset) {
 		cycleLength = Integer.parseInt(maxTimeView.getText().toString());
 		applianceTimer.cancel();
-		applianceTimer = new ApplianceTimer(applianceTimer.getNotificationHandler(), cycleLength * TIME_TICK, TIME_TICK/10);
+		applianceTimer = new ApplianceTimer(applianceTimer.getDisplayHandler(), applianceTimer.getNotificationHandler(), cycleLength * TIME_TICK, TIME_TICK/10);
 		timeLeftView.setText("" + cycleLength);
 	    } else if (v.getId() == R.id.WashStart) {
 		applianceTimer.start();
@@ -69,17 +69,18 @@ public class WasherDryer extends Activity {
 	    } else if (v.getId() == R.id.WashStop) {
 		applianceTimer.cancel();
 		Toast.makeText(WasherDryer.this, "Timer stopped", Toast.LENGTH_SHORT).show();
-		applianceTimer = new ApplianceTimer(applianceTimer.getNotificationHandler(), Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK, TIME_TICK);
+		applianceTimer = new ApplianceTimer(applianceTimer.getDisplayHandler(), applianceTimer.getNotificationHandler(), Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK, TIME_TICK);
 	    }
 	}
     }
 
     public class ApplianceTimer extends CountDownTimer {
-	private DisplayHandler displayHandler = new TextDisplayHandler(timeLeftView);
+	private DisplayHandler displayHandler;
 	private NotificationHandler notificationHandler;
 	
-	public ApplianceTimer(NotificationHandler notificationHandler, long millisInFuture, long countDownInterval) {
+	public ApplianceTimer(DisplayHandler displayHandler, NotificationHandler notificationHandler, long millisInFuture, long countDownInterval) {
 	    super(millisInFuture, countDownInterval);
+	    this.displayHandler = displayHandler;
 	    this.notificationHandler = notificationHandler;
 	}
 
