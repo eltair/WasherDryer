@@ -17,6 +17,8 @@ public class WasherDryer extends Activity {
 
     private TextView timeLeftView;
     private NotificationManager notificationManager;
+    
+    private Appliance washer;
 
     /** Called when the activity is first created. */
     @Override
@@ -30,8 +32,9 @@ public class WasherDryer extends Activity {
 
 	int cycleLength = Integer.parseInt(((EditText) findViewById(R.id.WashCycleLength)).getText().toString());
 	NotificationHandler washerNotificationHandler = new Android4NotificationHandler("Washer done!", this, notificationManager);
-	ApplianceListener washerListener = new ApplianceListener(new Appliance(washerNotificationHandler, cycleLength * TIME_TICK, TIME_TICK));
+	washer = new Appliance(washerNotificationHandler, cycleLength * TIME_TICK, TIME_TICK);
 
+	ApplianceListener washerListener = new ApplianceListener(washer);
 	findViewById(R.id.WashReset).setOnClickListener(washerListener);
 	findViewById(R.id.WashStart).setOnClickListener(washerListener);
 	findViewById(R.id.WashStop).setOnClickListener(washerListener);
