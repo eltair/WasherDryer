@@ -26,7 +26,6 @@ public class WasherDryer extends Activity {
 	setContentView(R.layout.main);
 	timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
 	notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-	notificationManager.cancelAll();
 	NotificationHandler notificationHandler = new Android4NotificationHandler("Washer done!", this, notificationManager);
 	TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
 	int cycleLength = Integer.parseInt(maxTimeView.getText().toString());
@@ -34,6 +33,12 @@ public class WasherDryer extends Activity {
 	findViewById(R.id.WashReset).setOnClickListener(washerListener);
 	findViewById(R.id.WashStart).setOnClickListener(washerListener);
 	findViewById(R.id.WashStop).setOnClickListener(washerListener);
+    }
+
+    @Override
+    protected void onResume() {
+	super.onResume();
+	notificationManager.cancelAll();
     }
 
     public class WasherListener implements OnClickListener, OnKeyListener {
