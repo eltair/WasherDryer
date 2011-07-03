@@ -105,13 +105,11 @@ public class WasherDryer extends Activity {
 
 	    CharSequence tickerText = "Washer done!";
 	    long when = System.currentTimeMillis();
-
 	    Notification notification = new Notification(R.drawable.icon, tickerText, when);
 	    CharSequence contentTitle = "WasherDryer Alarm";
-	    CharSequence contentText = "Washer done!";
 	    Intent notificationIntent = new Intent(WasherDryer.this, WasherDryer.class);
 	    PendingIntent contentIntent = PendingIntent.getActivity(WasherDryer.this, 0, notificationIntent, 0);
-	    notification.setLatestEventInfo(WasherDryer.this, contentTitle, contentText, contentIntent);
+	    notification.setLatestEventInfo(WasherDryer.this, contentTitle, tickerText, contentIntent);
 	    notificationManager.notify(1, notification);
 	}
 
