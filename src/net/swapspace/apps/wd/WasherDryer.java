@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -71,45 +69,6 @@ public class WasherDryer extends Activity {
 		Toast.makeText(WasherDryer.this, "Timer stopped", Toast.LENGTH_SHORT).show();
 		applianceTimer = new ApplianceTimer(applianceTimer.getDisplayHandler(), applianceTimer.getNotificationHandler(), Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK, TIME_TICK);
 	    }
-	}
-    }
-
-    public class ApplianceTimer extends CountDownTimer {
-	private DisplayHandler displayHandler;
-	private NotificationHandler notificationHandler;
-	
-	public ApplianceTimer(DisplayHandler displayHandler, NotificationHandler notificationHandler, long millisInFuture, long countDownInterval) {
-	    super(millisInFuture, countDownInterval);
-	    this.displayHandler = displayHandler;
-	    this.notificationHandler = notificationHandler;
-	}
-
-	public DisplayHandler getDisplayHandler() {
-	    return displayHandler;
-	}
-
-	public void setDisplayHandler(DisplayHandler displayHandler) {
-	    this.displayHandler = displayHandler;
-	}
-
-	public NotificationHandler getNotificationHandler() {
-	    return notificationHandler;
-	}
-
-	public void setNotificationHandler(NotificationHandler notificationHandler) {
-	    this.notificationHandler = notificationHandler;
-	}
-
-	@Override
-	public void onFinish() {
-	    displayHandler.handleChange(0);
-	    notificationHandler.handleComplete();
-	}
-
-	@Override
-	public void onTick(long millisUntilFinished) {
-	    Log.d(this.getClass().toString(), "millisUntilFinished=" + millisUntilFinished);
-	    displayHandler.handleChange(((long)Math.ceil((double) millisUntilFinished / (double) TIME_TICK)));
 	}
     }
 }
