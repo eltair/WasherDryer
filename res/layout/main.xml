@@ -18,7 +18,7 @@
 	<LinearLayout android:id="@+id/WashLayout"
 		android:orientation="horizontal" android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
-		<EditText android:text="@string/wash_cycle_length"
+		<EditText android:text="@string/wash_cycle_length" android:selectAllOnFocus="true"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:id="@+id/WashCycleLength" android:inputType="number"></EditText>
 		<TextView android:id="@+id/WashCycleLengthLabel"
