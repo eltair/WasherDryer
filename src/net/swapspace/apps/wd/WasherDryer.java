@@ -29,7 +29,7 @@ public class WasherDryer extends Activity {
 	NotificationHandler notificationHandler = new Android4NotificationHandler("Washer done!", this, notificationManager);
 	TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
 	int cycleLength = Integer.parseInt(maxTimeView.getText().toString());
-	final WasherListener washerListener = new WasherListener(new Appliance(notificationHandler, cycleLength * TIME_TICK, TIME_TICK));
+	final ApplianceListener washerListener = new ApplianceListener(new Appliance(notificationHandler, cycleLength * TIME_TICK, TIME_TICK));
 	findViewById(R.id.WashReset).setOnClickListener(washerListener);
 	findViewById(R.id.WashStart).setOnClickListener(washerListener);
 	findViewById(R.id.WashStop).setOnClickListener(washerListener);
@@ -41,30 +41,30 @@ public class WasherDryer extends Activity {
 	notificationManager.cancelAll();
     }
 
-    public class WasherListener implements OnClickListener, OnKeyListener {
-	private Appliance washerTimer;
+    public class ApplianceListener implements OnClickListener, OnKeyListener {
+	private Appliance applianceTimer;
 	private final TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
 	private final TextView timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
 	private int cycleLength;
 
-	public WasherListener(Appliance washerTimer) {
+	public ApplianceListener(Appliance washerTimer) {
 	    cycleLength = Integer.parseInt(maxTimeView.getText().toString());
-	    this.washerTimer = washerTimer;
+	    this.applianceTimer = washerTimer;
 	}
 
 	public void onClick(View v) {
 	    if (v.getId() == R.id.WashReset) {
 		cycleLength = Integer.parseInt(maxTimeView.getText().toString());
-		washerTimer.cancel();
-		washerTimer = new Appliance(washerTimer.getNotificationHandler(), cycleLength * TIME_TICK, TIME_TICK/10);
+		applianceTimer.cancel();
+		applianceTimer = new Appliance(applianceTimer.getNotificationHandler(), cycleLength * TIME_TICK, TIME_TICK/10);
 		timeLeftView.setText("" + cycleLength);
 	    } else if (v.getId() == R.id.WashStart) {
-		washerTimer.start();
-		Toast.makeText(WasherDryer.this, "Washer timer started", Toast.LENGTH_SHORT).show();
+		applianceTimer.start();
+		Toast.makeText(WasherDryer.this, "Timer started", Toast.LENGTH_SHORT).show();
 	    } else if (v.getId() == R.id.WashStop) {
-		washerTimer.cancel();
-		Toast.makeText(WasherDryer.this, "Washer timer stopped", Toast.LENGTH_SHORT).show();
-		washerTimer = new Appliance(washerTimer.getNotificationHandler(), Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK, TIME_TICK);
+		applianceTimer.cancel();
+		Toast.makeText(WasherDryer.this, "Timer stopped", Toast.LENGTH_SHORT).show();
+		applianceTimer = new Appliance(applianceTimer.getNotificationHandler(), Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK, TIME_TICK);
 	    }
 	}
 
