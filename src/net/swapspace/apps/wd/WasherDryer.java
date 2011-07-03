@@ -6,10 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +44,7 @@ public class WasherDryer extends Activity {
 	notificationManager.cancelAll();
     }
 
-    public class ApplianceListener implements OnClickListener, OnKeyListener {
+    public class ApplianceListener implements OnClickListener {
 	private Appliance applianceTimer;
 	private final TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
 	private final TextView timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
@@ -70,26 +68,6 @@ public class WasherDryer extends Activity {
 		applianceTimer.cancel();
 		Toast.makeText(WasherDryer.this, "Timer stopped", Toast.LENGTH_SHORT).show();
 		applianceTimer = new Appliance(applianceTimer.getNotificationHandler(), Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK, TIME_TICK);
-	    }
-	}
-
-	@Override
-	public boolean onKey(View v, int keyCode, KeyEvent event) {
-	    char c = event.getNumber();
-	    switch (c) {
-	    case '0':
-	    case '1':
-	    case '2':
-	    case '3':
-	    case '4':
-	    case '5':
-	    case '6':
-	    case '7':
-	    case '8':
-	    case '9':
-		return true;
-	    default:
-		return false;
 	    }
 	}
     }
