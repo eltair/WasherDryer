@@ -59,7 +59,7 @@ public class WasherDryer extends Activity {
 	    if (v.getId() == R.id.WashReset) {
 		cycleLength = Integer.parseInt(maxTimeView.getText().toString());
 		washerTimer.cancel();
-		washerTimer = new WasherCountdownTimer(cycleLength * TIME_TICK, TIME_TICK);
+		washerTimer = new WasherCountdownTimer(cycleLength * TIME_TICK, TIME_TICK/10);
 		timeLeftView.setText("" + cycleLength);
 	    } else if (v.getId() == R.id.WashStart) {
 		washerTimer.start();
