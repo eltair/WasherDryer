@@ -45,21 +45,21 @@ public class WasherDryer extends Activity {
     }
 
     public class WasherListener implements OnClickListener, OnKeyListener {
-	private WasherCountdownTimer washerTimer;
+	private Appliance washerTimer;
 	private final TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
 	private final TextView timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
 	private int cycleLength;
 
 	public WasherListener() {
 	    cycleLength = Integer.parseInt(maxTimeView.getText().toString());
-	    washerTimer = new WasherCountdownTimer(cycleLength * TIME_TICK, TIME_TICK);
+	    washerTimer = new Appliance(cycleLength * TIME_TICK, TIME_TICK);
 	}
 
 	public void onClick(View v) {
 	    if (v.getId() == R.id.WashReset) {
 		cycleLength = Integer.parseInt(maxTimeView.getText().toString());
 		washerTimer.cancel();
-		washerTimer = new WasherCountdownTimer(cycleLength * TIME_TICK, TIME_TICK/10);
+		washerTimer = new Appliance(cycleLength * TIME_TICK, TIME_TICK/10);
 		timeLeftView.setText("" + cycleLength);
 	    } else if (v.getId() == R.id.WashStart) {
 		washerTimer.start();
@@ -67,7 +67,7 @@ public class WasherDryer extends Activity {
 	    } else if (v.getId() == R.id.WashStop) {
 		washerTimer.cancel();
 		Toast.makeText(WasherDryer.this, "Washer timer stopped", Toast.LENGTH_SHORT).show();
-		washerTimer = new WasherCountdownTimer(Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK,
+		washerTimer = new Appliance(Long.parseLong(timeLeftView.getText().toString()) * TIME_TICK,
 			TIME_TICK);
 	    }
 	}
@@ -93,8 +93,8 @@ public class WasherDryer extends Activity {
 	}
     }
 
-    public class WasherCountdownTimer extends CountDownTimer {
-	public WasherCountdownTimer(long millisInFuture, long countDownInterval) {
+    public class Appliance extends CountDownTimer {
+	public Appliance(long millisInFuture, long countDownInterval) {
 	    super(millisInFuture, countDownInterval);
 	}
 
