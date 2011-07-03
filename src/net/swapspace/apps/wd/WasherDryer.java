@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +28,7 @@ public class WasherDryer extends Activity {
 	timeLeftView = (TextView) findViewById(R.id.WashTimeLeft);
 	notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-	TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
-	int cycleLength = Integer.parseInt(maxTimeView.getText().toString());
-
+	int cycleLength = Integer.parseInt(((EditText) findViewById(R.id.WashCycleLength)).getText().toString());
 	NotificationHandler washerNotificationHandler = new Android4NotificationHandler("Washer done!", this, notificationManager);
 	ApplianceListener washerListener = new ApplianceListener(new Appliance(washerNotificationHandler, cycleLength * TIME_TICK, TIME_TICK));
 
