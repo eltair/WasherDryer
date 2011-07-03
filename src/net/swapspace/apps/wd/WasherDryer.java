@@ -10,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +31,9 @@ public class WasherDryer extends Activity {
 	TextView maxTimeView = (TextView) findViewById(R.id.WashCycleLength);
 	int cycleLength = Integer.parseInt(maxTimeView.getText().toString());
 	final WasherListener washerListener = new WasherListener(new Appliance(notificationHandler, cycleLength * TIME_TICK, TIME_TICK));
-	final Button washReset = (Button) findViewById(R.id.WashReset);
-	washReset.setOnClickListener(washerListener);
-	final Button washStart = (Button) findViewById(R.id.WashStart);
-	washStart.setOnClickListener(washerListener);
-	final Button washStop = (Button) findViewById(R.id.WashStop);
-	washStop.setOnClickListener(washerListener);
+	findViewById(R.id.WashReset).setOnClickListener(washerListener);
+	findViewById(R.id.WashStart).setOnClickListener(washerListener);
+	findViewById(R.id.WashStop).setOnClickListener(washerListener);
     }
 
     public class WasherListener implements OnClickListener, OnKeyListener {
