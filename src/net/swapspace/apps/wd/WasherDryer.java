@@ -21,6 +21,7 @@ public class WasherDryer extends Activity {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         LinearLayout appliances = (LinearLayout) this.findViewById(R.id.Appliances);
+        appliances.setPadding(0, 10, 0, 10);
         ApplianceFactory factory = new ApplianceFactory(this);
         Appliance washer = factory.createAppliance("Washer");
         Appliance dryer = factory.createAppliance("Dryer");
@@ -30,9 +31,11 @@ public class WasherDryer extends Activity {
         LinearLayout washerSettings = new LinearLayout(this);
         washerSettings.addView(washer.getCycleLengthEdit());
         washerSettings.addView(washer.getCycleLengthLabel());
+        washerSettings.setPadding(0, 10, 0, 0);
         LinearLayout dryerSettings = new LinearLayout(this);
         dryerSettings.addView(dryer.getCycleLengthEdit());
         dryerSettings.addView(dryer.getCycleLengthLabel());
+        dryerSettings.setPadding(0, 10, 0, 0);
         
         LinearLayout settings = (LinearLayout)findViewById(R.id.Settings);
         settings.removeAllViews();

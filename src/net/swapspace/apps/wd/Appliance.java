@@ -108,6 +108,7 @@ public class Appliance {
 
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(0, 5, 0, 0);
         layout.addView(timeLeft);
         layout.addView(buttons);
         return layout;
