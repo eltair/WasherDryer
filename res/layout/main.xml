@@ -3,6 +3,9 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/appliances"
+		android:textSize="14pt" />
 	<LinearLayout android:id="@+id/Appliances" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
 	</LinearLayout>
 	<TextView android:layout_width="fill_parent"

@@ -12,4 +12,5 @@
 <string name="wash_reset">Reset</string>
 <string name="wash_start">Start Washer</string>
 <string name="wash_stop">Stop</string>
+<string name="appliances">Appliances</string>
 </resources>
