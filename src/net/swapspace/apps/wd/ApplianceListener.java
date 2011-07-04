@@ -1,7 +1,6 @@
 package net.swapspace.apps.wd;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -20,7 +19,6 @@ public class ApplianceListener implements OnClickListener {
     }
 
     public void onClick(View v) {
-        Log.w("ApplianceListener", "Got click from " + v.getId());
         if (v == appliance.getResetButton()) {
             applianceTimer.cancel();
             applianceTimer = timerFactory.create(appliance.getCycleLength());
