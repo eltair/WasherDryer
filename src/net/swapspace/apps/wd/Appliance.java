@@ -3,6 +3,7 @@ package net.swapspace.apps.wd;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,7 +13,8 @@ public class Appliance {
     private Context context;
     private TextView timeLeftLabel;
     private TextView timeLeftView;
-    private TextView cycleLengthEdit;
+    private TextView cycleLengthLabel;
+    private EditText cycleLengthEdit;
     private Button startButton;
     private Button stopButton;
     private Button resetButton;
@@ -38,11 +40,19 @@ public class Appliance {
         this.timeLeftView = timeLeftView;
     }
 
-    public TextView getCycleLengthEdit() {
+    public TextView getCycleLengthLabel() {
+        return cycleLengthLabel;
+    }
+
+    public void setCycleLengthLabel(TextView cycleLengthLabel) {
+        this.cycleLengthLabel = cycleLengthLabel;
+    }
+
+    public EditText getCycleLengthEdit() {
         return cycleLengthEdit;
     }
 
-    public void setCycleLengthEdit(TextView cycleLengthEdit) {
+    public void setCycleLengthEdit(EditText cycleLengthEdit) {
         this.cycleLengthEdit = cycleLengthEdit;
     }
 

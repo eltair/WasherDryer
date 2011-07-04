@@ -21,11 +21,24 @@ public class WasherDryer extends Activity {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         LinearLayout appliances = (LinearLayout) this.findViewById(R.id.Appliances);
-        ApplianceFactory factory = new ApplianceFactory();
-        Appliance washer = factory.createAppliance(this, "Washer");
-        Appliance dryer = factory.createAppliance(this, "Dryer");
+        ApplianceFactory factory = new ApplianceFactory(this);
+        Appliance washer = factory.createAppliance("Washer");
+        Appliance dryer = factory.createAppliance("Dryer");
         appliances.addView(washer.createLayout());
         appliances.addView(dryer.createLayout());
+        
+        LinearLayout washerSettings = new LinearLayout(this);
+        washerSettings.addView(washer.getCycleLengthEdit());
+        washerSettings.addView(washer.getCycleLengthLabel());
+        LinearLayout dryerSettings = new LinearLayout(this);
+        dryerSettings.addView(dryer.getCycleLengthEdit());
+        dryerSettings.addView(dryer.getCycleLengthLabel());
+        
+        LinearLayout settings = (LinearLayout)findViewById(R.id.Settings);
+        settings.removeAllViews();
+        settings.setOrientation(LinearLayout.VERTICAL);
+        settings.addView(washerSettings);
+        settings.addView(dryerSettings);
     }
 
     @Override

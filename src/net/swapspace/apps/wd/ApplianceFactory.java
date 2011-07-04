@@ -3,11 +3,19 @@ package net.swapspace.apps.wd;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.text.InputType;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ApplianceFactory {
-    public Appliance createAppliance(Activity activity, String name) {
+    private Activity activity;
+    public ApplianceFactory(Activity activity) {
+        this.activity = activity;
+    }
+    public Appliance createAppliance(String name) {
         NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationHandler notificationHandler = new Android4NotificationHandler(name + " done!", activity, notificationManager);
 
@@ -25,7 +33,19 @@ public class ApplianceFactory {
         resetButton.setText("Reset " + name);
         appliance.setResetButton(resetButton);
 
-        TextView cycleLengthEdit = (TextView) activity.findViewById(R.id.WashCycleLength);
+        TextView cycleLengthLabel = new TextView(activity);
+        cycleLengthLabel.setText("Full "+name+" Cycle Time (in minutes)");
+        appliance.setCycleLengthLabel(cycleLengthLabel);
+
+        final EditText cycleLengthEdit = new EditText(activity);
+        cycleLengthEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
+        cycleLengthEdit.setText(R.string.wash_cycle_length);
+        cycleLengthEdit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cycleLengthEdit.setSelection(0, cycleLengthEdit.getText().length());
+            }
+        });
         appliance.setCycleLengthEdit(cycleLengthEdit);
 
         TextView timeLeftLabel = new TextView(activity);

@@ -8,7 +8,7 @@
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="@string/settings"
 		android:textSize="14pt" />
-	<LinearLayout android:id="@+id/WashLayout"
+	<LinearLayout android:id="@+id/Settings"
 		android:orientation="horizontal" android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
 		<EditText android:text="@string/wash_cycle_length" android:selectAllOnFocus="true"
