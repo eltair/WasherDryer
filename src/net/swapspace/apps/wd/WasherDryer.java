@@ -11,8 +11,6 @@ public class WasherDryer extends Activity {
 
     private NotificationManager notificationManager;
 
-    private Appliance washer;
-
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,8 +22,10 @@ public class WasherDryer extends Activity {
 
         LinearLayout appliances = (LinearLayout) this.findViewById(R.id.Appliances);
         ApplianceFactory factory = new ApplianceFactory();
-        washer = factory.createAppliance(this, "Washer");
+        Appliance washer = factory.createAppliance(this, "Washer");
+        Appliance dryer = factory.createAppliance(this, "Dryer");
         appliances.addView(washer.createLayout());
+        appliances.addView(dryer.createLayout());
     }
 
     @Override
