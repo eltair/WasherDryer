@@ -13,20 +13,20 @@ public class Android4NotificationHandler implements NotificationHandler {
     private CharSequence text;
 
     public Android4NotificationHandler(CharSequence text, Activity activity, NotificationManager notificationManager) {
-	this.text = text;
-	this.activity = activity;
-	this.notificationManager = notificationManager;
+        this.text = text;
+        this.activity = activity;
+        this.notificationManager = notificationManager;
     }
 
     @Override
     public void handleComplete() {
-	Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
-	long when = System.currentTimeMillis();
-	Notification notification = new Notification(R.drawable.icon, text, when);
-	CharSequence contentTitle = "WasherDryer Alarm";
-	Intent notificationIntent = new Intent(activity, WasherDryer.class);
-	PendingIntent contentIntent = PendingIntent.getActivity(activity, 0, notificationIntent, 0);
-	notification.setLatestEventInfo(activity, contentTitle, text, contentIntent);
-	notificationManager.notify(1, notification);
+        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
+        long when = System.currentTimeMillis();
+        Notification notification = new Notification(R.drawable.icon, text, when);
+        CharSequence contentTitle = "WasherDryer Alarm";
+        Intent notificationIntent = new Intent(activity, WasherDryer.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(activity, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(activity, contentTitle, text, contentIntent);
+        notificationManager.notify(1, notification);
     }
 }
